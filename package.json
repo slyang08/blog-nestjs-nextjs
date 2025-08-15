@@ -1,0 +1,8 @@
+{
+  "name": "blog-nestjs-nextjs",
+  "private": true,
+  "workspaces": [
+    "blog-nextjs",
+    "nestjs"
+  ]
+}
