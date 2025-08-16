@@ -1,6 +1,4 @@
-// nestjs/eslint.config.mjs
-// @ts-check
-import baseConfig from "../eslint.config.mjs";
+// eslint.config.mjs
 import eslint from "@eslint/js";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import globals from "globals";
@@ -10,7 +8,6 @@ export default tseslint.config(
   {
     ignores: ["eslint.config.mjs"],
   },
-  baseConfig,
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
   eslintPluginPrettierRecommended,
@@ -20,7 +17,7 @@ export default tseslint.config(
         ...globals.node,
         ...globals.jest,
       },
-      sourceType: "commonjs",
+      sourceType: "module",
       parserOptions: {
         projectService: true,
         tsconfigRootDir: import.meta.dirname,

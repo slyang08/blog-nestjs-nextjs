@@ -1,8 +1,15 @@
 {
   "name": "blog-nestjs-nextjs",
   "private": true,
+  "type": "module",
   "workspaces": [
     "blog-nextjs",
     "nestjs"
-  ]
+  ],
+  "scripts": {
+    "dev": "concurrently \"pnpm --filter blog-nextjs dev\" \"pnpm --filter nestjs dev\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.0"
+  }
 }

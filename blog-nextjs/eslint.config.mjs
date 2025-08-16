@@ -1,6 +1,8 @@
+// blog-nextjs/eslint.config.mjs
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
+import baseConfig from "../eslint.config.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -10,7 +12,12 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
+  baseConfig,
   ...compat.extends("next/core-web-vitals", "next/typescript"),
+  {
+    files: ["**/*.ts", "**/*.tsx"],
+    rules: {},
+  },
 ];
 
 export default eslintConfig;
