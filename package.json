@@ -6,6 +6,11 @@
     "blog-nextjs",
     "nestjs"
   ],
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "bcrypt"
+    ]
+  },
   "scripts": {
     "dev": "concurrently \"pnpm --filter blog-nextjs dev\" \"pnpm --filter nestjs dev\"",
     "format": "pnpm -r --parallel format",
