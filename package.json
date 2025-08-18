@@ -7,9 +7,20 @@
     "nestjs"
   ],
   "scripts": {
-    "dev": "concurrently \"pnpm --filter blog-nextjs dev\" \"pnpm --filter nestjs dev\""
+    "dev": "concurrently \"pnpm --filter blog-nextjs dev\" \"pnpm --filter nestjs dev\"",
+    "format": "pnpm -r --parallel format",
+    "format:fix": "pnpm -r --parallel format:fix",
+    "lint": "pnpm -r --parallel lint",
+    "lint:fix": "pnpm -r --parallel lint:fix"
   },
   "devDependencies": {
-    "concurrently": "^9.2.0"
+    "@typescript-eslint/eslint-plugin": "^8.39.1",
+    "@typescript-eslint/parser": "^8.39.1",
+    "concurrently": "^9.2.0",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-prettier": "^5.2.2",
+    "globals": "^16.0.0",
+    "prettier": "^3.6.2",
+    "prettier-plugin-tailwindcss": "^0.6.14"
   }
 }

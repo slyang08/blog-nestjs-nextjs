@@ -7,5 +7,6 @@
   "endOfLine": "lf",
   "arrowParens": "always",
   "bracketSpacing": true,
-  "proseWrap": "preserve"
+  "proseWrap": "preserve",
+  "plugins": ["prettier-plugin-tailwindcss"]
 }

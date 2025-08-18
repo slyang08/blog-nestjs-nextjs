@@ -1,0 +1,9 @@
+# .eslintignore
+
+blog-nextjs/.next
+
+node_modules/
+dist/
+build/
+.git/
+*.d.ts
