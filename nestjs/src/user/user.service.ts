@@ -17,12 +17,17 @@ export class UserService {
       email: createUserDto.email,
       username: createUserDto.username,
       password: hashedPassword,
+      verified: false,
     });
     return createdUser.save();
   }
 
   async findAll(): Promise<User[]> {
     return this.userModel.find().exec();
+  }
+
+  async findById(id: string): Promise<UserDocument | null> {
+    return this.userModel.findById(id).exec();
   }
 
   async findByEmail(email: string): Promise<User | null> {
