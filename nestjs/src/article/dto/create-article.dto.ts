@@ -20,7 +20,7 @@ export class CreateArticleDto {
 
   @IsString()
   @IsNotEmpty()
-  authorId: string; // 用戶端送過來的可能是 string
+  authorId: string;
 
   @IsArray()
   @IsOptional()

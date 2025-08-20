@@ -1,5 +1,5 @@
 // src/user/user.controller.ts
-import { Controller, Get, Post, Body, Param, Put, Delete } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 
 import { CreateUserDto } from "./dto/create-user.dto.js";
 import { User } from "./schemas/user.schema.js";

@@ -46,8 +46,7 @@ export default [
         "error",
         {
           groups: [
-            "builtin", // Node.js built-in modules
-            "external", // External modules (node_modules)
+            ["builtin", "external"], // Node.js built-in modules and External modules (node_modules)
             "internal", // Custom internal modules
             ["parent", "sibling", "index"], // Relative path modules
           ],
@@ -58,6 +57,7 @@ export default [
           "newlines-between": "always",
         },
       ],
+      "sort-imports": "off",
     },
   },
   {
