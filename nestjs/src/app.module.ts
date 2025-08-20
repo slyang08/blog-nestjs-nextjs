@@ -3,16 +3,18 @@ import { Module } from "@nestjs/common";
 
 import { AppController } from "./app.controller.js";
 import { AppService } from "./app.service.js";
+import { ArticleModule } from "./article/article.module.js";
 import { AuthController } from "./auth/auth.controller.js";
 import { AuthModule } from "./auth/auth.module.js";
 import { AuthService } from "./auth/auth.service.js";
+import { CategoryController } from "./category/category.controller.js";
+import { CategoryModule } from "./category/category.module.js";
+import { EmailModule } from "./email/email.module.js";
 import { UserModule } from "./user/user.module.js";
-import { EmailModule } from './email/email.module';
-import { ArticleModule } from './article/article.module';
 
 @Module({
-  imports: [UserModule, AuthModule, EmailModule, ArticleModule],
-  controllers: [AppController, AuthController],
+  imports: [UserModule, AuthModule, EmailModule, ArticleModule, CategoryModule],
+  controllers: [AppController, AuthController, CategoryController],
   providers: [AppService, AuthService],
 })
 export class AppModule {}

@@ -13,7 +13,7 @@ import * as bcrypt from "bcrypt";
 import { EmailService } from "../email/email.service.js";
 import { CreateUserDto } from "../user/dto/create-user.dto.js";
 import { LoginUserDto } from "../user/dto/login-user.dto.js";
-import { User, UserDocument } from "../user/schemas/user.schema.js";
+import { UserDocument } from "../user/schemas/user.schema.js";
 import { UserService } from "../user/user.service.js";
 import { JwtPayload } from "./types/jwt-payload.type.js";
 
