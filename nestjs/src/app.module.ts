@@ -10,10 +10,11 @@ import { AuthService } from "./auth/auth.service.js";
 import { CategoryController } from "./category/category.controller.js";
 import { CategoryModule } from "./category/category.module.js";
 import { EmailModule } from "./email/email.module.js";
+import { TagModule } from "./tag/tag.module.js";
 import { UserModule } from "./user/user.module.js";
 
 @Module({
-  imports: [UserModule, AuthModule, EmailModule, ArticleModule, CategoryModule],
+  imports: [UserModule, AuthModule, EmailModule, ArticleModule, CategoryModule, TagModule],
   controllers: [AppController, AuthController, CategoryController],
   providers: [AppService, AuthService],
 })
