@@ -11,7 +11,7 @@ import { User, UserDocument } from "./schemas/user.schema.js";
 export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  async create(createUserDto: CreateUserDto): Promise<UserDocument> {
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
     const createdUser = new this.userModel({
       email: createUserDto.email,
@@ -30,15 +30,15 @@ export class UserService {
     return this.userModel.findById(id).exec();
   }
 
-  async findByEmail(email: string): Promise<User | null> {
+  async findByEmail(email: string): Promise<UserDocument | null> {
     return this.userModel.findOne({ email }).exec();
   }
 
-  async update(id: string, updateData: Partial<User>): Promise<User | null> {
+  async update(id: string, updateData: Partial<User>): Promise<UserDocument | null> {
     return this.userModel.findByIdAndUpdate(id, updateData, { new: true }).exec();
   }
 
-  async delete(id: string): Promise<User | null> {
+  async delete(id: string): Promise<UserDocument | null> {
     return this.userModel.findByIdAndDelete(id).exec();
   }
 }
