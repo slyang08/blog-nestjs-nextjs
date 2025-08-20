@@ -1,18 +1,21 @@
 // src/auth/auth.service.ts
-import { Injectable } from "@nestjs/common";
+import {
+  BadRequestException,
+  ConflictException,
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import * as bcrypt from "bcrypt";
 
 import { EmailService } from "../email/email.service.js";
 import { CreateUserDto } from "../user/dto/create-user.dto.js";
 import { LoginUserDto } from "../user/dto/login-user.dto.js";
-import { User } from "../user/schemas/user.schema.js";
+import { User, UserDocument } from "../user/schemas/user.schema.js";
 import { UserService } from "../user/user.service.js";
-
-interface JwtPayload {
-  id: string;
-  email: string;
-}
+import { JwtPayload } from "./types/jwt-payload.type.js";
 
 @Injectable()
 export class AuthService {
@@ -24,15 +27,16 @@ export class AuthService {
 
   async register(createUserDto: CreateUserDto): Promise<{ message: string }> {
     const existedEmail = await this.userService.findByEmail(createUserDto.email);
-    if (existedEmail) throw new Error("Email already registered");
+    if (existedEmail) throw new ConflictException("Email already registered");
 
     if (createUserDto.password !== createUserDto.confirmPassword) {
-      throw new Error("Passwords do not match");
+      throw new BadRequestException("Passwords do not match");
     }
 
-    const newUser = await this.userService.create(createUserDto);
+    const newUser: UserDocument = await this.userService.create(createUserDto);
 
-    const payload = { email: newUser.email };
+    const payload = { id: newUser._id.toString(), email: newUser.email };
+
     const token: string = this.jwtService.sign(payload, {
       secret: process.env.JWT_VERIFICATION_TOKEN_SECRET,
       expiresIn: process.env.JWT_VERIFICATION_TOKEN_EXPIRATION_TIME,
@@ -44,28 +48,36 @@ export class AuthService {
   }
 
   async verifyEmail(token: string): Promise<{ message: string }> {
+    let payload: JwtPayload;
     try {
-      const payload = this.jwtService.verify<JwtPayload>(token, {
+      payload = this.jwtService.verify<JwtPayload>(token, {
         secret: process.env.JWT_VERIFICATION_TOKEN_SECRET,
       });
-      const user = await this.userService.findById(payload.id as string);
-      if (!user) throw new Error("User not found");
-
-      user.verified = true;
-      await user.save();
-
-      return { message: "Email successfully verified!" };
-    } catch (error) {
-      throw new Error("Invalid or expired token: ", error);
+    } catch {
+      throw new UnauthorizedException("Invalid or expired token");
     }
-  }
 
-  async login(loginUserDto: LoginUserDto): Promise<User | undefined> {
-    const user = await this.userService.findByEmail(loginUserDto.email);
+    const user = await this.userService.findById(payload.id);
     if (!user) throw new Error("User not found");
 
+    if (user.verified) {
+      return { message: "Email already verified." };
+    }
+
+    user.verified = true;
+    await user.save();
+
+    return { message: "Email successfully verified!" };
+  }
+
+  async login(loginUserDto: LoginUserDto): Promise<UserDocument> {
+    const user = await this.userService.findByEmail(loginUserDto.email);
+    if (!user) throw new NotFoundException("User not found");
+
     const isPasswordValid = await bcrypt.compare(loginUserDto.password, user.password);
-    if (!isPasswordValid) throw new Error("Invalid password");
+    if (!isPasswordValid) throw new UnauthorizedException("Invalid password");
+
+    if (!user.verified) throw new ForbiddenException("Please verify your email first");
 
     return user;
   }
@@ -78,7 +90,7 @@ export class AuthService {
     const user = await this.userService.findById(userId);
     if (!user) throw new Error("User not found");
 
-    const isPasswordValid = await bcrypt.compare(currentPassword, newPassword);
+    const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
     if (!isPasswordValid) throw new Error("Current password is incorrect");
 
     if (newPassword.length < 6) {

@@ -8,9 +8,10 @@ import { AuthModule } from "./auth/auth.module.js";
 import { AuthService } from "./auth/auth.service.js";
 import { UserModule } from "./user/user.module.js";
 import { EmailModule } from './email/email.module';
+import { ArticleModule } from './article/article.module';
 
 @Module({
-  imports: [UserModule, AuthModule, EmailModule],
+  imports: [UserModule, AuthModule, EmailModule, ArticleModule],
   controllers: [AppController, AuthController],
   providers: [AppService, AuthService],
 })

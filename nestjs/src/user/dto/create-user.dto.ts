@@ -1,5 +1,5 @@
 // src/user/dto/create-user.dto.ts
-import { IsBoolean, IsEmail, IsNotEmpty, IsString, MinLength } from "class-validator";
+import { IsEmail, IsNotEmpty, IsString, MinLength } from "class-validator";
 
 export class CreateUserDto {
   @IsEmail()
@@ -18,7 +18,4 @@ export class CreateUserDto {
   @IsNotEmpty()
   @MinLength(6)
   confirmPassword: string;
-
-  @IsBoolean()
-  verified: boolean = false;
 }
